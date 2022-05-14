@@ -1,0 +1,23 @@
+{
+  "name": "gamabuster",
+  "version": "1.0.0",
+  "description": "Repositório criado para prática do dia 14/05 utilizando nodeJs, express, nodemon e MVC. Como base utilizamos o modelo ER criado para uma locadora de filmes fictícia.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon --watch src src/app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "http"
+  ],
+  "author": "Délio <deliocqcosta@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "query-string": "^7.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
