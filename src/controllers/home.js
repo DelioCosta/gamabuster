@@ -1,9 +1,8 @@
 const HomeController = {
     welcome: (req, res) => {
-      const { name } = req.params;
-  
-      res.send(`Hello ${name || "world"}`);
+      res.send(` --> GamaBuster API 1.0.0 <-- `);
     },
   };
   
   module.exports = HomeController;
+  

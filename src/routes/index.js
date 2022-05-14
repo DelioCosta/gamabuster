@@ -31,6 +31,6 @@ router.get("/reserva/:id", ReservaController.show);
 router.put("/reserva/:id", ReservaController.update);
 router.delete("/reserva/:id", ReservaController.destroy);
 
-router.get("/:name?", HomeController.welcome);
+router.get("/", HomeController.welcome);
 
 module.exports = router;
