@@ -1,29 +1,65 @@
+const Genero = require("../models/Genero");
+
 const GeneroController = {
-    index: (req, res) => {
-      res.json([]);
-    },
-    store: (req, res) => {
-      res.json(req.body);
-    },
-    show: (req, res) => {
-      const { id } = req.params;
-  
-      res.json({
-        id,
-        name : 'Terror',
+  index: async (req, res) => {
+    const allGeneros = await Genero.findAll();
+
+    res.json(allGeneros);
+  },
+  store: async (req, res) => {
+    const { nome } = req.body;
+    const novoGenero = await Genero.create({ nome });
+
+    res.json(novoGenero);
+  },
+  show: async (req, res) => {
+    const { id } = req.params;
+
+    const genero = await Genero.findByPk(id);
+
+    if (genero) {
+      return res.json(genero);
+    }
+
+    res.status(404).json({
+      message: "Genero não encontrado",
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { nome } = req.body;
+
+    const genero = await Genero.findByPk(id);
+
+    if (!genero) {
+      res.status(404).json({
+        message: "Genero não encontrado",
       });
-    },
-    update: (req, res) => {
-      const { id } = req.params;
-  
-      res.json({
-        id,
-        ...(req.body || {}),
+    }
+
+    genero.nome = nome;
+    await genero.save();
+
+    res.json(genero);
+
+    // await Genero.update({ nome }, { where: { codigo: id } });
+
+    // res.json({ message: "Gênero atualizado com sucesso" });
+  },
+  destroy: async (req, res) => {
+    const { id } = req.params;
+    const genero = await Genero.findByPk(id);
+
+    if (!genero) {
+      res.status(404).json({
+        message: "Genero não encontrado",
       });
-    },
-    destroy: (req, res) => {
-      res.status(204).send("");
-    },
-  };
-  
-  module.exports = GeneroController;
+    }
+
+    await genero.destroy();
+
+    res.status(204).send("");
+  },
+};
+
+module.exports = GeneroController;

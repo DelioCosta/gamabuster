@@ -1,33 +1,71 @@
+const Filme = require("../models/Filme");
+
 const FilmeController = {
-    index: (req, res) => {
-      res.json([]);
-    },
-    store: (req, res) => {
-      res.json(req.body);
-    },
-    show: (req, res) => {
-      const { id } = req.params;
-  
-      res.json({
-        id,
-        nome: 'Matrix',
-        ano: '1999',
-        duracao: '128 min',
-        quantidade: 5,
-        estoque: 5,
+  index: async (req, res) => {
+    const allFilmes = await Filme.findAll();
+
+    res.json(allFilmes);
+  },
+  store: async (req, res) => {
+    const { nome, ano_lancamento, estoque, duracao } = req.body;
+
+    const novoFilme = await Filme.create({
+      nome,
+      ano_lancamento,
+      estoque,
+      duracao,
+    });
+
+    res.json(novoFilme);
+  },
+  show: async (req, res) => {
+    const { id } = req.params;
+
+    const filme = await Filme.findByPk(id);
+
+    if (filme) {
+      return res.json(filme);
+    }
+
+    res.status(404).json({
+      message: "Filme não encontrado",
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { nome, ano_lancamento, estoque, duracao } = req.body;
+
+    const filme = await Filme.findByPk(id);
+
+    if (!filme) {
+      res.status(404).json({
+        message: "Filme não encontrado",
       });
-    },
-    update: (req, res) => {
-      const { id } = req.params;
-  
-      res.json({
-        id,
-        ...(req.body || {}),
+    }
+
+    await Filme.update(
+      { nome, ano_lancamento, estoque, duracao },
+      { where: { codigo: id } }
+    );
+
+    const filmeAtualizado = await Filme.findByPk(id);
+
+    res.json(filmeAtualizado);
+  },
+  destroy: async (req, res) => {
+    const { id } = req.params;
+    const filme = await Filme.findByPk(id);
+
+    if (!filme) {
+      res.status(404).json({
+        message: "Filme não encontrado",
       });
-    },
-    destroy: (req, res) => {
-      res.status(204).send("");
-    },
-  };
-  
-  module.exports = FilmeController;
+    }
+
+    await filme.destroy();
+
+    res.status(204).send("");
+  },
+};
+
+module.exports = FilmeController;
