@@ -361,3 +361,11 @@ CREATE TABLE `reserva_filme` (
   CONSTRAINT `FK_FilmeReserva` FOREIGN KEY (`filme_codigo`) REFERENCES `filme` (`codigo`),
   CONSTRAINT `FK_ReservaFilme` FOREIGN KEY (`reserva_codigo`) REFERENCES `reserva` (`codigo`) ON DELETE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+CREATE TABLE `usuario` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
